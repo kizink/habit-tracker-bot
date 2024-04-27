@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 
 bot_secrets/*
+
+# Postgres secrets
+db/db_secrets/*
