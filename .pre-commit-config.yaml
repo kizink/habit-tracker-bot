@@ -1,0 +1,9 @@
+repos:
+-   repo: https://github.com/pycqa/flake8
+    rev: '408d4d695c71b0b232cea576876e757c87a3379c'
+    hooks:
+    -   id: flake8
+-   repo: https://github.com/pycqa/pydocstyle
+    rev: 8d0cdfc93e86e096bb5753f07dc5c7c373e63837
+    hooks:
+    -   id: pydocstyle
