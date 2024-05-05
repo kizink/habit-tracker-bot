@@ -3,7 +3,7 @@ import logging
 import sys
 from bot_secrets.token import TOKEN
 
-from aiogram import Bot, Dispatcher, Router, html
+from aiogram import Bot, Dispatcher, F, Router, html, types
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
@@ -25,6 +25,7 @@ class Form(StatesGroup):
     greetings = State()
     getName = State()
     menu = State()
+    buttons = State()
 
 
 @form_router.message(CommandStart())
@@ -65,6 +66,34 @@ async def menu(message: Message, state: FSMContext) -> None:
     """Show menu_keyboard."""
     await message.answer("Выберите действие",
                          reply_markup=common_keyboards.get_menu_kb())
+    await state.set_state(Form.buttons)
+
+
+@form_router.message(F.text == common_keyboards.ButtonText.ADD_HABIT)
+async def handle_add_habit(message: types.Message):
+    """Handle adding habits."""
+    await message.answer(
+        text="Перешли обработчик добавления привычек\n",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+
+@form_router.message(F.text == common_keyboards.ButtonText.DELETE_HABIT)
+async def handle_delete_habit(message: types.Message):
+    """Handle deleting habits."""
+    await message.answer(
+        text="Перешли обработчик удаления привычек\n",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+
+@form_router.message(F.text == common_keyboards.ButtonText.SHOW_HABITS)
+async def handle_show_habits(message: types.Message):
+    """Handle showing habits."""
+    await message.answer(
+        text="Перешли обработчик показа привычек\n",
+        reply_markup=ReplyKeyboardRemove(),
+    )
 
 
 async def main():
