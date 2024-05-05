@@ -9,12 +9,10 @@ from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
-    KeyboardButton,
     Message,
-    ReplyKeyboardRemove,
-    ReplyKeyboardMarkup
+    ReplyKeyboardRemove
 )
-
+from keyboards import common_keyboards
 import db
 
 example_db = db.DataBase()
@@ -65,13 +63,8 @@ async def saving_name(message: Message, state: FSMContext) -> None:
 @form_router.message(Form.menu)
 async def menu(message: Message, state: FSMContext) -> None:
     """Show menu_keyboard."""
-    kb = [
-        [KeyboardButton(text="Посмотреть текущие привычки")],
-        [KeyboardButton(text="Добавить привычку")],
-        [KeyboardButton(text="Удалить привычку")]
-    ]
-    keyboard = ReplyKeyboardMarkup(keyboard=kb)
-    await message.answer("Выберите действие", reply_markup=keyboard)
+    await message.answer("Выберите действие",
+                         reply_markup=common_keyboards.get_menu_kb())
 
 
 async def main():
