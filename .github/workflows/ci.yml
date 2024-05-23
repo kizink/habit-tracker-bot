@@ -31,16 +31,13 @@ jobs:
       - name: Install pipenv
         run: pip install pipenv
 
-      - name: Create virtual
-        run: pipenv shell
-
       - name: Install dependencies
         run: pipenv install --dev
 
       - name: Run checks
         run: |
-          pre-commit install
-          pre-commit run --all-files
+          pipenv run pre-commit install
+          pipenv run pre-commit run --all-files
       
       - name: Run tests
-        run: python run_tests.py
+        run: pipenv run python run_tests.py
