@@ -13,6 +13,7 @@ from aiogram.types import (
     ReplyKeyboardRemove
 )
 from keyboards import common_keyboards
+from keyboards.common_keyboards import ButtonText
 import db
 
 example_db = db.DataBase()
@@ -42,10 +43,7 @@ async def command_start(message: Message, state: FSMContext) -> None:
 @form_router.message(Form.greetings)
 async def process_name(message: Message, state: FSMContext) -> None:
     """Get a name."""
-    await message.answer(
-        "Hi there! What's your name?",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    await message.answer("Привет! Как тебя зовут?",)
     await state.set_state(Form.getName)
 
 
@@ -56,7 +54,7 @@ async def saving_name(message: Message, state: FSMContext) -> None:
 
     await state.set_state(Form.menu)
     await message.answer(
-        f"Nice to meet you, {html.quote(message.text)}!\n",
+        f"Приятно познакомиться, {html.quote(message.text)}!\n",
     )
     await menu(message, state)
 
@@ -69,7 +67,7 @@ async def menu(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.buttons)
 
 
-@form_router.message(F.text == common_keyboards.ButtonText.ADD_HABIT)
+@form_router.message(Form.buttons, F.text == ButtonText.ADD_HABIT)
 async def handle_add_habit(message: types.Message):
     """Handle adding habits."""
     await message.answer(
@@ -78,7 +76,7 @@ async def handle_add_habit(message: types.Message):
     )
 
 
-@form_router.message(F.text == common_keyboards.ButtonText.DELETE_HABIT)
+@form_router.message(Form.buttons, F.text == ButtonText.DELETE_HABIT)
 async def handle_delete_habit(message: types.Message):
     """Handle deleting habits."""
     await message.answer(
@@ -87,7 +85,7 @@ async def handle_delete_habit(message: types.Message):
     )
 
 
-@form_router.message(F.text == common_keyboards.ButtonText.SHOW_HABITS)
+@form_router.message(Form.buttons, F.text == ButtonText.SHOW_HABITS)
 async def handle_show_habits(message: types.Message):
     """Handle showing habits."""
     await message.answer(
