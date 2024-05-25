@@ -1,13 +1,13 @@
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from typing import Callable, Dict, Any, Awaitable
-import db
+from db import db_scripts
 
 
 class DatabaseMiddleware(BaseMiddleware):
     """middleware for working with a db."""
 
-    def __init__(self, db: db.DataBase) -> None:
+    def __init__(self, db: db_scripts.DataBase) -> None:
         """Init."""
         self.db = db
 

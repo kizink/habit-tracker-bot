@@ -10,7 +10,7 @@ from aiogram.enums import ParseMode
 
 from routers.main_router import router as main_router
 from middlewares.db import DatabaseMiddleware
-import db
+from db import db_scripts
 
 
 async def main():
@@ -18,7 +18,7 @@ async def main():
     dp = Dispatcher()
     dp.include_router(main_router)
 
-    db_instance = db.DataBase()
+    db_instance = db_scripts.DataBase()
     dp.update.middleware(DatabaseMiddleware(db=db_instance))
 
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
