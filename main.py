@@ -14,9 +14,9 @@ from aiogram.types import (
 )
 from keyboards import common_keyboards
 from keyboards.common_keyboards import ButtonText
+from middlewares.db import DatabaseMiddleware
 import db
 
-example_db = db.DataBase()
 form_router = Router()
 
 
@@ -30,9 +30,10 @@ class Form(StatesGroup):
 
 
 @form_router.message(CommandStart())
-async def command_start(message: Message, state: FSMContext) -> None:
+async def command_start(message: Message, state: FSMContext,
+                        db: db.DataBase) -> None:
     """Run when you type /start."""
-    if not example_db.user_exists(message.from_user.id):
+    if not db.user_exists(message.from_user.id):
         await state.set_state(Form.greetings)
         await process_name(message, state)
     else:
@@ -48,9 +49,10 @@ async def process_name(message: Message, state: FSMContext) -> None:
 
 
 @form_router.message(Form.getName)
-async def saving_name(message: Message, state: FSMContext) -> None:
+async def saving_name(message: Message, state: FSMContext,
+                      db: db.DataBase) -> None:
     """Save name to DB."""
-    example_db.add_user(message.from_user.id, message.text)
+    db.add_user(message.from_user.id, message.text)
 
     await state.set_state(Form.menu)
     await message.answer(
@@ -96,9 +98,13 @@ async def handle_show_habits(message: types.Message):
 
 async def main():
     """Configure bot."""
-    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()
     dp.include_router(form_router)
+
+    db_instance = db.DataBase()
+    dp.update.middleware(DatabaseMiddleware(db=db_instance))
+
+    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
     await dp.start_polling(bot)
 
 
