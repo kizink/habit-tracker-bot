@@ -13,10 +13,11 @@ unknown_message_router = Router()
 async def handle_unknown_message(message: Message, state: FSMContext) -> None:
     """Handle unknown message."""
     await message.answer(
-        text="Нераспознанная команда\n",
+        text=f"Нераспознанная команда: {message.text}",
         reply_markup=ReplyKeyboardRemove(),
     )
-
-    await message.answer("Выберите действие",
-                         reply_markup=common_keyboards.get_menu_kb())
+    await message.answer(
+        text="Выберите действие",
+        reply_markup=common_keyboards.get_menu_kb()
+    )
     await state.set_state(Form.buttons)
