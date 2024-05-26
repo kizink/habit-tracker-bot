@@ -16,10 +16,9 @@ async def handle_delete_habit(message: Message, state: FSMContext,
                               db: db_scripts.DataBase) -> None:
     """Handle deleting habits."""
     await message.answer(
-        text="Перешли обработчик удаления привычек\n",
-        reply_markup=ReplyKeyboardRemove(),
+        text=str(db.get_habits(message.from_user.id)),
+        reply_markup=ReplyKeyboardRemove()
     )
-    await message.answer(str(db.get_habits(message.from_user.id)))
     await message.answer("Введите id привычки, которую хотите удалить")
     await state.set_state(DeleteHabitStates.ChoiceHabits)
 
@@ -28,7 +27,7 @@ async def handle_delete_habit(message: Message, state: FSMContext,
 async def handle_choice_habits(message: Message, state: FSMContext,
                                db: db_scripts.DataBase) -> None:
     """Choice habbits to delete."""
-    db.delete_habit(message.text)
+    db.delete_habit(int(message.text))
     await message.answer("Привычка с id = " + message.text + " удалена")
 
     await message.answer("Выберите действие",

@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 psycopg2-binary = "*"
 aiogram = "*"
+pytest = "*"
+pytest-asyncio = "*"
 
 [dev-packages]
 pre-commit = "*"

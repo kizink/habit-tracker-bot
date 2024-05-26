@@ -14,3 +14,10 @@
 pre-commit install
 pre-commit run --all-files
 ```
+
+## Tests
+
+Запустить тесты
+```bash
+pipenv run python run_tests.py
+```
