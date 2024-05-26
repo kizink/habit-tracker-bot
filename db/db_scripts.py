@@ -1,5 +1,4 @@
 import psycopg2
-from .db_secrets.db_pass import PASS
 
 
 class DataBase:
@@ -7,6 +6,7 @@ class DataBase:
 
     def __init__(self) -> None:
         """Configure db."""
+        from .db_secrets.db_pass import PASS
         self.conn = psycopg2.connect(
             dbname="habits_db",
             user="pguser",
