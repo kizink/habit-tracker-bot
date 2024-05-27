@@ -21,3 +21,10 @@ pre-commit run --all-files
 ```bash
 pipenv run python run_tests.py
 ```
+
+## ToDo
+- initial state
+- answer formatting
+- input checks
+- logging
+- map num<->habit_id when delete habit

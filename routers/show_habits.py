@@ -1,8 +1,9 @@
+import aiogram.utils.formatting
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message
 
-from keyboards import common_keyboards
 from keyboards.common_keyboards import ButtonText
 from .FSM_states import Form
 from db import db_scripts
@@ -15,12 +16,8 @@ show_habits_router = Router()
 async def handle_show_habits(message: Message, state: FSMContext,
                              db: db_scripts.DataBase) -> None:
     """Handle showing habits."""
-    await message.answer(
-        text="Перешли обработчик показа привычек\n",
-        reply_markup=ReplyKeyboardRemove(),
-    )
-    await message.answer(str(db.get_habits(message.from_user.id)))
-
-    await message.answer("Выберите действие",
-                         reply_markup=common_keyboards.get_menu_kb())
-    await state.set_state(Form.buttons)
+    habits = db.get_habits(message.from_user.id)
+    content = aiogram.utils.formatting.Text("No habits")
+    if len(habits) > 0:
+        content = aiogram.utils.formatting.as_list(*habits, sep='\n\n')
+    await message.answer(**content.as_kwargs())

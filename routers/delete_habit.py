@@ -1,6 +1,8 @@
+import aiogram.utils.formatting
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message
 
 from keyboards import common_keyboards
 from keyboards.common_keyboards import ButtonText
@@ -15,10 +17,13 @@ delete_habit_router = Router()
 async def handle_delete_habit(message: Message, state: FSMContext,
                               db: db_scripts.DataBase) -> None:
     """Handle deleting habits."""
-    await message.answer(
-        text=str(db.get_habits(message.from_user.id)),
-        reply_markup=ReplyKeyboardRemove()
-    )
+    habits = db.get_habits(message.from_user.id)
+    if len(habits) == 0:
+        content = aiogram.utils.formatting.Text("No habits")
+        await message.answer(**content.as_kwargs())
+        return
+    content = aiogram.utils.formatting.as_list(*habits, sep='\n\n')
+    await message.answer(**content.as_kwargs())
     await message.answer("Введите id привычки, которую хотите удалить")
     await state.set_state(DeleteHabitStates.ChoiceHabits)
 
