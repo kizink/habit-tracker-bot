@@ -8,7 +8,7 @@ def db_mock():
     """Mock for testing interaction with database."""
     return Mock(
         delete_habit=Mock(),
-        get_habits=Mock()
+        get_habits=Mock(return_value=[1])
     )
 
 
