@@ -8,6 +8,7 @@ psycopg2-binary = "*"
 aiogram = "*"
 pytest = "*"
 pytest-asyncio = "*"
+psycopg = {extras = ["binary"], version = "*"}
 
 [dev-packages]
 pre-commit = "*"
