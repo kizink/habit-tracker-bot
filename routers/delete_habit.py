@@ -10,6 +10,7 @@ from keyboards.common_keyboards import ButtonText
 from .FSM_states import Form, DeleteHabitStates
 from db import db_scripts
 from utils.habit import pretty_formatting as pretty
+from utils.translation import _
 
 
 delete_habit_router = Router()
@@ -21,14 +22,14 @@ async def handle_delete_habit(message: Message, state: FSMContext,
     """Handle deleting habits."""
     habits = db.get_habits(message.from_user.id)
     if len(habits) == 0:
-        content = aiogram.utils.formatting.Text("Нет привычек")
+        content = aiogram.utils.formatting.Text(_("Нет привычек"))
         await message.answer(**content.as_kwargs())
         return
     await state.update_data(habit_list=habits)
 
     content = [pretty(habits[i], i) for i in range(len(habits))]
     await message.answer('\n'.join(content), parse_mode=ParseMode.HTML)
-    await message.answer("Введите номер привычки, которую хотите удалить")
+    await message.answer(_("Введите номер привычки, которую хотите удалить"))
     await state.set_state(DeleteHabitStates.ChoiceHabits)
 
 
@@ -40,10 +41,10 @@ async def handle_choice_habits(message: Message, state: FSMContext,
     habits = data["habit_list"]
     db.delete_habit(habits[int(message.text)].id)
 
-    await message.answer("Привычка с номером = "
-                         + message.text + " удалена")
+    await message.answer(_("Привычка с номером = ")
+                         + message.text + _(" удалена"))
     await state.clear()
 
-    await message.answer("Выберите действие",
+    await message.answer(_("Выберите действие"),
                          reply_markup=common_keyboards.get_menu_kb())
     await state.set_state(Form.buttons)

@@ -3,15 +3,16 @@ from aiogram.types import (
     ReplyKeyboardMarkup
 )
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from utils.translation import _
 
 
 class ButtonText:
     """Keyboard button text."""
 
-    SHOW_HABITS = "Посмотреть текущие привычки"
-    ADD_HABIT = "Добавить привычку"
-    DELETE_HABIT = "Удалить привычку"
-    SHOW_HISTORY = "Посмотреть историю"
+    SHOW_HABITS = _("Посмотреть текущие привычки")
+    ADD_HABIT = _("Добавить привычку")
+    DELETE_HABIT = _("Удалить привычку")
+    SHOW_HISTORY = _("Посмотреть историю")
 
 
 def get_menu_kb() -> ReplyKeyboardMarkup:

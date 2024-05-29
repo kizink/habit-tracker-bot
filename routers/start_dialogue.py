@@ -6,6 +6,7 @@ from aiogram.types import Message
 from keyboards import common_keyboards
 from .FSM_states import Form
 from db import db_scripts
+from utils.translation import _
 
 
 start_dialogue_router = Router()
@@ -26,7 +27,7 @@ async def command_start(message: Message, state: FSMContext,
 @start_dialogue_router.message(Form.greetings)
 async def process_name(message: Message, state: FSMContext) -> None:
     """Get a name."""
-    await message.answer("Привет! Как тебя зовут?",)
+    await message.answer(_("Привет! Как тебя зовут?"),)
     await state.set_state(Form.getName)
 
 
@@ -38,7 +39,7 @@ async def saving_name(message: Message, state: FSMContext,
 
     await state.set_state(Form.menu)
     await message.answer(
-        f"Приятно познакомиться, {html.quote(message.text)}!\n",
+        _("Приятно познакомиться,") + f"{html.quote(message.text)}!\n",
     )
     await menu(message, state)
 
@@ -46,6 +47,6 @@ async def saving_name(message: Message, state: FSMContext,
 @start_dialogue_router.message(Form.menu)
 async def menu(message: Message, state: FSMContext) -> None:
     """Show menu_keyboard."""
-    await message.answer("Выберите действие",
+    await message.answer(_("Выберите действие"),
                          reply_markup=common_keyboards.get_menu_kb())
     await state.set_state(Form.buttons)
