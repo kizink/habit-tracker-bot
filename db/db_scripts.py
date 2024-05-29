@@ -1,3 +1,4 @@
+import os
 import psycopg
 
 from dataclasses import dataclass
@@ -29,15 +30,14 @@ class Action:
 class DataBase:
     """BD class."""
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Configure db."""
-        from .db_secrets.db_pass import PASS
         self.conn = psycopg.connect(
-            dbname="habits_db",
-            user="pguser",
-            password=PASS,
-            host="0.0.0.0",
-            port="5432"
+            dbname=os.environ["DB_NAME"],
+            user=os.environ["DB_USER"],
+            password=os.environ["DB_PASS"],
+            host=os.environ["DB_HOST"],
+            port=os.environ["DB_PORT"]
         )
 
     def user_exists(self, user_id) -> bool:
@@ -50,14 +50,19 @@ class DataBase:
             records = cursor.fetchall()
         return len(records) > 0
 
-    def add_user(self, user_id, user_name) -> None:
+    def add_user(self, user_id, user_name) -> bool:
         """Add a user to the database."""
-        with self.conn.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO \"user\" (id, name) VALUES (%s, %s)",
-                (user_id, user_name,)
-            )
-        self.conn.commit()
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO \"user\" (id, name) VALUES (%s, %s);",
+                    (user_id, user_name,)
+                )
+            self.conn.commit()
+            return True
+        except Exception:
+            self.conn.rollback()
+        return False
 
     def add_habit(self, user_id, name, description, notificationTime) -> None:
         """Add a habit to the database."""
@@ -117,18 +122,23 @@ class DataBase:
             )
         self.conn.commit()
 
-    def add_action(self, action: Action) -> None:
+    def add_action(self, action: Action) -> bool:
         """Add an action to the database."""
-        with self.conn.cursor() as cursor:
-            cursor.execute(
-                """
-                    INSERT INTO action
-                    (habit_id, action_time, is_complited)
-                    VALUES (%s, %s, %s)
-                """,
-                (action.habit_id, action.action_time, action.is_complited)
-            )
-        self.conn.commit()
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(
+                    """
+                        INSERT INTO action
+                        (habit_id, action_time, is_complited)
+                        VALUES (%s, %s, %s)
+                    """,
+                    (action.habit_id, action.action_time, action.is_complited)
+                )
+            self.conn.commit()
+            return True
+        except Exception:
+            self.conn.rollback()
+            return False
 
     def get_actions(self, habit_id: int) -> list[Action]:
         """Get actions for specific user habit."""

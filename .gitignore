@@ -159,7 +159,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# It could be deleted
 bot_secrets/*
 
 # Postgres secrets
 db/db_secrets/*
+
+# Script for setup credentials into environment variables
+set_credentials.sh
