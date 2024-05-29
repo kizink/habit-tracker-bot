@@ -1,3 +1,4 @@
+import os
 import asyncio
 import logging
 import sys
@@ -11,7 +12,6 @@ from routers.main_router import router as main_router
 from middlewares.db import DatabaseMiddleware
 from db import db_scripts
 from notifier import Notifier
-from bot_secrets.token import TOKEN
 
 
 async def main():
@@ -21,7 +21,7 @@ async def main():
     db_instance = db_scripts.DataBase()
     dp.update.middleware(DatabaseMiddleware(db=db_instance))
     bot = Bot(
-        token=TOKEN,
+        token=os.environ["BOT_TOKEN"],
         default=DefaultBotProperties(
             parse_mode=ParseMode.HTML
         )

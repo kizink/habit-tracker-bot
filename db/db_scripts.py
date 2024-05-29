@@ -1,3 +1,4 @@
+import os
 import psycopg
 
 from dataclasses import dataclass
@@ -29,15 +30,14 @@ class Action:
 class DataBase:
     """BD class."""
 
-    def __init__(self) -> None:
+    def __init__(self):
         """Configure db."""
-        from .db_secrets.db_pass import PASS
         self.conn = psycopg.connect(
-            dbname="habits_db",
-            user="pguser",
-            password=PASS,
-            host="0.0.0.0",
-            port="5432"
+            dbname=os.environ["DB_NAME"],
+            user=os.environ["DB_USER"],
+            password=os.environ["DB_PASS"],
+            host=os.environ["DB_HOST"],
+            port=os.environ["DB_PORT"]
         )
 
     def user_exists(self, user_id) -> bool:

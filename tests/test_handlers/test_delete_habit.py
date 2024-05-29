@@ -6,8 +6,46 @@ from routers.FSM_states import DeleteHabitStates, Form
 
 
 @pytest.mark.asyncio
-async def test_delete_habit(state_mock, db_mock):
+async def test_delete_habit(state_mock, db_with_data):
     """Get user habits and remove one of them."""
+    user_id = 1
+    message_mock = AsyncMock(
+        from_user=Mock(
+            id=user_id
+        ),
+        answer=AsyncMock()
+    )
+    await handle_delete_habit(
+        message_mock,
+        state_mock,
+        db_with_data
+    )
+    state_mock.set_state.assert_called_with(DeleteHabitStates.ChoiceHabits)
+
+    habit_id = 1
+    message_mock = AsyncMock(
+        text=str(habit_id),
+        answer=AsyncMock()
+    )
+    await handle_choice_habits(
+        message_mock,
+        state_mock,
+        db_with_data
+    )
+    state_mock.set_state.assert_called_with(Form.buttons)
+    with db_with_data.conn.cursor() as cursor:
+        cursor.execute(
+            """
+                SELECT * FROM habit WHERE id = 1
+            """
+        )
+        records = cursor.fetchall()
+    assert len(records) == 0
+
+
+@pytest.mark.asyncio
+async def test_no_habits_to_delete(state_mock, db_with_data):
+    """User with no habits."""
     user_id = 100500
     message_mock = AsyncMock(
         from_user=Mock(
@@ -18,20 +56,6 @@ async def test_delete_habit(state_mock, db_mock):
     await handle_delete_habit(
         message_mock,
         state_mock,
-        db_mock
+        db_with_data
     )
-    state_mock.set_state.assert_called_with(DeleteHabitStates.ChoiceHabits)
-    db_mock.get_habits.assert_called_with(user_id)
-
-    habit_id = 123
-    message_mock = AsyncMock(
-        text=str(habit_id),
-        answer=AsyncMock()
-    )
-    await handle_choice_habits(
-        message_mock,
-        state_mock,
-        db_mock
-    )
-    state_mock.set_state.assert_called_with(Form.buttons)
-    db_mock.delete_habit.assert_called_with(habit_id)
+    state_mock.assert_not_awaited()
