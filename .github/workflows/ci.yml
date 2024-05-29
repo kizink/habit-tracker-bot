@@ -26,7 +26,7 @@ jobs:
       - name: Run PostgreSQL
         uses: hoverkraft-tech/compose-action@v1.5.1
         with:
-          compose-file: ".db/test-docker-compose.yml"
+          compose-file: "./db/test-docker-compose.yml"
 
       - name: Set up Python
         uses: actions/setup-python@v5
