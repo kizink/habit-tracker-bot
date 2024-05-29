@@ -18,14 +18,16 @@ async def handle_save_history(
         action_time=callback.message.date,
         is_complited=callback_data[2] == "yes",
     )
-    db.add_action(action)
+    res = db.add_action(action)
     await callback.answer()
 
-    text = callback.message.text
-    if action.is_complited:
-        text += " ✅"
-    else:
-        text += " ❌"
+    text = "Не удалось сохранить статистику"
+    if res:
+        text = callback.message.text
+        if action.is_complited:
+            text += " ✅"
+        else:
+            text += " ❌"
     chat_id = callback.message.chat.id
     message_id = callback.message.message_id
     await callback.message.bot.edit_message_text(

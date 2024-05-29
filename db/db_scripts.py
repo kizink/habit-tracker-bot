@@ -50,14 +50,19 @@ class DataBase:
             records = cursor.fetchall()
         return len(records) > 0
 
-    def add_user(self, user_id, user_name) -> None:
+    def add_user(self, user_id, user_name) -> bool:
         """Add a user to the database."""
-        with self.conn.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO \"user\" (id, name) VALUES (%s, %s)",
-                (user_id, user_name,)
-            )
-        self.conn.commit()
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO \"user\" (id, name) VALUES (%s, %s);",
+                    (user_id, user_name,)
+                )
+            self.conn.commit()
+            return True
+        except Exception:
+            self.conn.rollback()
+        return False
 
     def add_habit(self, user_id, name, description, notificationTime) -> None:
         """Add a habit to the database."""
@@ -117,18 +122,23 @@ class DataBase:
             )
         self.conn.commit()
 
-    def add_action(self, action: Action) -> None:
+    def add_action(self, action: Action) -> bool:
         """Add an action to the database."""
-        with self.conn.cursor() as cursor:
-            cursor.execute(
-                """
-                    INSERT INTO action
-                    (habit_id, action_time, is_complited)
-                    VALUES (%s, %s, %s)
-                """,
-                (action.habit_id, action.action_time, action.is_complited)
-            )
-        self.conn.commit()
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(
+                    """
+                        INSERT INTO action
+                        (habit_id, action_time, is_complited)
+                        VALUES (%s, %s, %s)
+                    """,
+                    (action.habit_id, action.action_time, action.is_complited)
+                )
+            self.conn.commit()
+            return True
+        except Exception:
+            self.conn.rollback()
+            return False
 
     def get_actions(self, habit_id: int) -> list[Action]:
         """Get actions for specific user habit."""
