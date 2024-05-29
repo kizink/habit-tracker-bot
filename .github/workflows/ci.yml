@@ -23,6 +23,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Run PostgreSQL
+        uses: hoverkraft-tech/compose-action@v1.5.1
+        with:
+          compose-file: "./db/test-docker-compose.yml"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

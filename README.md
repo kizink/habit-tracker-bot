@@ -9,6 +9,24 @@
 Требования к проекту
 http://uneex.ru/LecturesCMC/PythonDevelopment2024/GraduateProject
 
+## Для запуска нужно установить переменные окружения
+Создать файл set_credentials.sh:
+```bash
+#!/bin/bash
+
+export DB_NAME="..."
+export DB_USER="..."
+export DB_PASS="..."
+export DB_HOST="..."
+export DB_PORT="..."
+export BOT_TOKEN="..."
+```
+
+Далее выполнить:
+```bash
+chmod +x set_credentials.sh && . ./set_credentials.sh
+```
+
 ## Pre-commit hooks
 
 Для проверки стиля оформления кода и документации перед коммитом использованы flake8 и pydocstyle
@@ -19,6 +37,11 @@ pre-commit run --all-files
 ```
 
 ## Tests
+
+Запустить тестовую базу данных
+```bash
+docker-compose -f db/test-docker-compose.yml up
+```
 
 Запустить тесты
 ```bash

@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  postgres:
+    image: postgres:16.2-alpine3.19
+    environment:
+      - POSTGRES_DB=test_habits_db
+      - POSTGRES_USER=test_pguser
+      - POSTGRES_PASSWORD=test_password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./init_scripts:/docker-entrypoint-initdb.d
+      - test_habits_db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  test_habits_db-data:
