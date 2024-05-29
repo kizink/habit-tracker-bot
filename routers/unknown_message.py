@@ -14,7 +14,7 @@ unknown_message_router = Router()
 async def handle_unknown_message(message: Message, state: FSMContext) -> None:
     """Handle unknown message."""
     await message.answer(
-        text=_("Нераспознанная команда:") + message.text,
+        text=_("Нераспознанная команда: ") + message.text,
         reply_markup=ReplyKeyboardRemove(),
     )
     await message.answer(

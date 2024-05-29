@@ -8,7 +8,7 @@ from routers.FSM_states import DeleteHabitStates, Form
 @pytest.mark.asyncio
 async def test_delete_habit(state_mock, db_with_data):
     """Get user habits and remove one of them."""
-    user_id = 1
+    user_id = 3
     message_mock = AsyncMock(
         from_user=Mock(
             id=user_id
@@ -22,10 +22,15 @@ async def test_delete_habit(state_mock, db_with_data):
     )
     state_mock.set_state.assert_called_with(DeleteHabitStates.ChoiceHabits)
 
-    habit_id = 1
+    habit_id = 0
     message_mock = AsyncMock(
         text=str(habit_id),
         answer=AsyncMock()
+    )
+    state_mock.get_data = AsyncMock(
+        return_value={
+            'habit_list': [Mock(id=6)]
+        }
     )
     await handle_choice_habits(
         message_mock,
@@ -36,7 +41,7 @@ async def test_delete_habit(state_mock, db_with_data):
     with db_with_data.conn.cursor() as cursor:
         cursor.execute(
             """
-                SELECT * FROM habit WHERE id = 1
+                SELECT * FROM habit WHERE id = 6
             """
         )
         records = cursor.fetchall()

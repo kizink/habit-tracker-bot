@@ -41,7 +41,8 @@ def db_with_data(empty_db):
                     (id, name)
                 VALUES
                     (1, 'Vasya'),
-                    (2, 'Petya');
+                    (2, 'Petya'),
+                    (3, 'Petya2');
 
                 INSERT INTO habit
                     (id, user_id, name, description, notification_time)
@@ -50,7 +51,8 @@ def db_with_data(empty_db):
                     (2, 1, 'Зарядка', 'это нам надо', '09:00:00'),
                     (3, 1, 'Таблетки', 'это приходится', '21:45:00'),
                     (4, 2, 'Код писать', 'зачем это', '15:00:00'),
-                    (5, 2, 'Гулять', 'люблю такое', '19:15:00');
+                    (5, 2, 'Гулять', 'люблю такое', '19:15:00'),
+                    (6, 3, 'Гулять', 'люблю такое', '23:15:00');
 
                 INSERT INTO action
                     (habit_id, action_time, is_complited)

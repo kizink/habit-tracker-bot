@@ -1,4 +1,5 @@
 import pytest
+import locale
 
 from unittest.mock import AsyncMock, call, ANY
 from keyboards import common_keyboards
@@ -8,6 +9,7 @@ from routers.unknown_message import handle_unknown_message
 
 @pytest.mark.asyncio
 async def test_unknown_command(state_mock):
+    locale.setlocale(locale.LC_CTYPE, ("ru_RU", "UTF-8"))
     command = '\\some_unknown_command'
     message_mock = AsyncMock(
         text=command,
