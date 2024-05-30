@@ -38,6 +38,11 @@ jobs:
 
       - name: Install dependencies
         run: pipenv install --dev
+      
+      - name: Create localization (compile all.mo)
+        run: 
+          pybabel compile -D all -l en_US.UTF-8 -d po -i po/en_US.UTF-8/LC_MESSAGES/all.po
+          export LC_CTYPE=en_US.UTF-8
 
       - name: Run checks
         run: |

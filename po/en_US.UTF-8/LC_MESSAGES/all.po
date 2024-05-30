@@ -1,0 +1,101 @@
+# English (United States) translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-05-29 14:16+0300\n"
+"PO-Revision-Date: 2024-05-29 14:16+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en_US\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: keyboards/common_keyboards.py:12
+msgid "Посмотреть текущие привычки"
+msgstr "Show current habits"
+
+#: keyboards/common_keyboards.py:13
+msgid "Добавить привычку"
+msgstr "Add habit"
+
+#: keyboards/common_keyboards.py:14
+msgid "Удалить привычку"
+msgstr "Delete habit"
+
+#: keyboards/common_keyboards.py:15
+msgid "Посмотреть историю"
+msgstr "Show history"
+
+#: routers/add_habit.py:19
+msgid "Введите название привычки"
+msgstr "Enter the name of the habit"
+
+#: routers/add_habit.py:31
+msgid "Введите описание привычки"
+msgstr "Enter a description of the habit"
+
+#: routers/add_habit.py:41
+msgid "Введите время, в которое напомнить вам о привычке"
+msgstr "Enter the time at which to remind you of the habit"
+
+#: routers/add_habit.py:67 routers/delete_habit.py:48
+#: routers/start_dialogue.py:50 routers/unknown_message.py:21
+msgid "Выберите действие"
+msgstr "Choose an action"
+
+#: routers/delete_habit.py:25
+msgid "Нет привычек"
+msgstr "No habits"
+
+#: routers/delete_habit.py:32
+msgid "Введите номер привычки, которую хотите удалить"
+msgstr "Enter the number of the habit you want to delete"
+
+#: routers/delete_habit.py:44
+msgid "Привычка с номером = "
+msgstr "Habit with number "
+
+#: routers/delete_habit.py:45
+msgid " удалена"
+msgstr " removed"
+
+#: routers/show_habits.py:23
+msgid "Нет превычек"
+msgstr "No habits"
+
+#: routers/start_dialogue.py:30
+msgid "Привет! Как тебя зовут?"
+msgstr "Hello! What is your name?"
+
+#: routers/start_dialogue.py:42
+msgid "Приятно познакомиться,"
+msgstr "Nice to meet you,"
+
+#: routers/unknown_message.py:17
+msgid "Нераспознанная команда:"
+msgstr "Unrecognized command:"
+
+#: utils/habit.py:7
+msgid "<b>Привычка</b> "
+msgstr "<b>Habit</b> "
+
+#: utils/habit.py:8
+msgid "<i>Название привычки</i>: "
+msgstr "<i>Habit name</i>: "
+
+#: utils/habit.py:9
+msgid "<i>Описание привычки</i>: "
+msgstr "<i>Description of habit</i>: "
+
+#: utils/habit.py:10
+msgid "<i>Время уведомления</i>: "
+msgstr "<i>Notification time</i>: "
+

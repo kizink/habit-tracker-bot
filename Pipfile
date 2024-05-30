@@ -12,6 +12,7 @@ psycopg = {extras = ["binary"], version = "*"}
 
 [dev-packages]
 pre-commit = "*"
+babel = "*"
 
 [requires]
 python_version = "3.11"

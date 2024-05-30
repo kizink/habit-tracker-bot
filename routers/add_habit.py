@@ -6,6 +6,7 @@ from keyboards import common_keyboards
 from keyboards.common_keyboards import ButtonText
 from .FSM_states import Form, AddHabitStates
 from db import db_scripts
+from utils.translation import _
 
 
 add_habit_router = Router()
@@ -15,7 +16,7 @@ add_habit_router = Router()
 async def handle_add_habit(message: Message, state: FSMContext) -> None:
     """Handle adding habits."""
     await message.answer(
-        "Введите название привычки",
+        _("Введите название привычки"),
         reply_markup=ReplyKeyboardRemove(),
     )
     await state.set_state(AddHabitStates.getName)
@@ -27,7 +28,7 @@ async def getNameHabit(message: Message, state: FSMContext) -> None:
     await state.update_data(habit_name=message.text)
 
     await state.set_state(AddHabitStates.getDescription)
-    await message.answer("Введите описание привычки")
+    await message.answer(_("Введите описание привычки"))
 
 
 @add_habit_router.message(AddHabitStates.getDescription)
@@ -36,7 +37,9 @@ async def getDescriptionHabit(message: Message, state: FSMContext) -> None:
     await state.update_data(description_name=message.text)
 
     await state.set_state(AddHabitStates.getNotificationTime)
-    await message.answer("Введите время, в которое напомнить вам о привычке")
+    await message.answer(
+        _("Введите время, в которое напомнить вам о привычке")
+    )
 
 
 @add_habit_router.message(AddHabitStates.getNotificationTime)
@@ -61,6 +64,6 @@ async def inputConfirmation(message: Message, state: FSMContext,
     await state.clear()
     db.add_habit(user_id, habit_name, descr, time)
 
-    await message.answer("Выберите действие",
+    await message.answer(_("Выберите действие"),
                          reply_markup=common_keyboards.get_menu_kb())
     await state.set_state(Form.buttons)
