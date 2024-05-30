@@ -36,6 +36,20 @@ pre-commit install
 pre-commit run --all-files
 ```
 
+## Локализация
+Создать файл po/en_US.UTF-8/LC_MESSAGES/all.mo
+```bash
+pybabel compile -D all -l en_US.UTF-8 -d po -i po/en_US.UTF-8/LC_MESSAGES/all.po
+```
+Для выбора русского языка:
+```bash
+export LC_CTYPE=ru_RU.UTF-8
+```
+Для выбора английского языка:
+```bash
+export LC_CTYPE=en_US.UTF-8
+```
+
 ## Tests
 
 Запустить тестовую базу данных
@@ -48,9 +62,18 @@ docker-compose -f db/test-docker-compose.yml up
 pipenv run python run_tests.py
 ```
 
+## Документация
+```bash
+cd docs
+make html
+```
+Открываем docs/_build/html/index.html 
+
+Аналогично для user_docs
+
 ## ToDo
 - [x] **(3) тесты**
-- [ ] **(4) документация**
+- [x] **(4) документация**
 - [x] **(5) локализация**
 - [x] **CI**
 - [ ] **деплоймент**
