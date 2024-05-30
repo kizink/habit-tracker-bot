@@ -9,6 +9,8 @@ aiogram = "*"
 pytest = "*"
 pytest-asyncio = "*"
 psycopg = {extras = ["binary"], version = "*"}
+sphinx = "*"
+sphinx-rtd-theme = "*"
 
 [dev-packages]
 pre-commit = "*"
